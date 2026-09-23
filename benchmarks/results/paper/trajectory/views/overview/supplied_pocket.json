@@ -1,20 +1,20 @@
 {
   "trace_sha256": "ff581d4794b11ea09285107a1f6dd58dacfe46abaef25367d0d2eac85952fc8e",
-  "sha256": "84dff5d92149993d2fa9d8fdaa5451d0e467ffcae0022acb9feee870352ae548",
+  "sha256": "9e00c9f4865d200f75857fc04484c04b252736deaeba76861b4f02dfdafc0bab",
   "camera": [
     -27.49601372383736,
     -25.89508024679648,
     -41.17907703502758,
-    106.41742346964408,
+    69.71630639144963,
     -0.12607862007251908,
     0.25660481229257065,
     0.03378266443126182,
     0.9576621969425486
   ],
-  "zoom_factor": 0.7,
+  "zoom_factor": 0.38,
   "scene": {
     "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
-    "atoms": 2359,
+    "atoms": 2369,
     "secondary": {
       "c": 127,
       "s": 55,
@@ -26,5 +26,6 @@
   "chromium_version": "151.0.7922.34",
   "py3dmol_version": "2.5.5",
   "playwright_version": "1.62.0",
-  "description": "Stored receptor only; pale blue-gray input cartoon. No predicted pocket or cutoff boundary."
+  "description": "Recorded supplied-center residue-aware pocket crop; non-pocket residues hidden",
+  "input_pocket_sha256": "a1e03e0b0aad2ef2c544853fba9c4762f0b67bd5e41f3dedc438e541f2b95f2e"
 }
