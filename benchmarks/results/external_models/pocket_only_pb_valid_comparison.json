@@ -2,7 +2,7 @@
   "schema_version": 1,
   "comparison_scope": "supplied_pocket_only",
   "metric_contract": "One Top-1 pose per target. Hatched total is symmetry-aware heavy-atom RMSD <2 A; solid subset additionally passes all official PoseBusters redock validity checks. Missing/error targets remain denominator failures.",
-  "source_policy": "Classical GOLD/Vina use deposited PoseBusters paper values without minimization; AI/hybrid models use our three-repeat executions; EFF-Dock uses the promoted U70k refined result.",
+  "source_policy": "Classical GOLD/Vina use deposited PoseBusters paper values; learned baselines use our three-repeat executions; the EFF-Dock row is the manuscript primary protocol (papers/data/source_data.json, /values/figure_data/comparison). SurfDock denotes the released protocol with native force-field optimization; the no-optimization arm is a control.",
   "datasets": {
     "astex": {
       "name": "Astex Diverse",
@@ -10,25 +10,38 @@
       "methods": [
         {
           "method": "EFF-Dock",
-          "family": "ours",
+          "family": "dl",
           "source_type": "our_run",
-          "repeat_count": 1,
+          "repeat_count": 3,
           "top1_rmsd_lt2": {
-            "mean": 85.88235294117646,
-            "std": 0.0
+            "values": [
+              83.52941176470588,
+              83.52941176470588,
+              82.3529411764706
+            ],
+            "mean": 83.13725490196079,
+            "std": 0.679235610811322,
+            "std_definition": "sample standard deviation (ddof=1)"
           },
           "top1_joint_rmsd_lt2_pb_valid": {
-            "mean": 81.17647058823529,
-            "std": 0.0
+            "values": [
+              80.0,
+              80.0,
+              80.0
+            ],
+            "mean": 80.0,
+            "std": 0.0,
+            "std_definition": "sample standard deviation (ddof=1)"
           },
           "source": {
-            "path": "outputs/benchmarks/s50_raw_refined_confidence_external_runs/4184b0087a19d1138d578b123fb11ba4658fa149bf2d8087f8dd96c4beb4d4dc/report.json",
-            "sha256": "ed65159344ad1c320bc8b81c01e809880a3e0a54120914bc35682f7ec9591946"
+            "path": "papers/data/source_data.json",
+            "pointer": "/values/figure_data/comparison",
+            "condition": "100 poses, 10 steps, refinement, chirality-filtered confidence selection"
           }
         },
         {
           "method": "SigmaDock",
-          "family": "hybrid",
+          "family": "dl",
           "source_type": "our_run",
           "repeat_count": 3,
           "top1_rmsd_lt2": {
@@ -52,14 +65,14 @@
             "std_definition": "sample standard deviation (ddof=1)"
           },
           "source": [
-            "outputs/external_models/evaluation/sigmadock_official_r4_20260830/astex_diverse/repeat_0/summary.json",
-            "outputs/external_models/evaluation/sigmadock_official_r4_20260830/astex_diverse/repeat_1/summary.json",
-            "outputs/external_models/evaluation/sigmadock_official_r4_20260830/astex_diverse/repeat_2/summary.json"
+            "outputs/benchmarks/external_models/evaluation/sigmadock_official_r4_20260830/astex_diverse/repeat_0/summary.json",
+            "outputs/benchmarks/external_models/evaluation/sigmadock_official_r4_20260830/astex_diverse/repeat_1/summary.json",
+            "outputs/benchmarks/external_models/evaluation/sigmadock_official_r4_20260830/astex_diverse/repeat_2/summary.json"
           ]
         },
         {
           "method": "DiffDock-Pocket",
-          "family": "learning",
+          "family": "dl",
           "source_type": "our_run",
           "repeat_count": 3,
           "top1_rmsd_lt2": {
@@ -95,7 +108,7 @@
         },
         {
           "method": "RLDiff RL++",
-          "family": "hybrid",
+          "family": "dl",
           "source_type": "our_run",
           "repeat_count": 3,
           "top1_rmsd_lt2": {
@@ -131,7 +144,7 @@
         },
         {
           "method": "DiffBindFR + MDN/EC",
-          "family": "hybrid",
+          "family": "dl",
           "source_type": "our_run",
           "repeat_count": 3,
           "top1_rmsd_lt2": {
@@ -163,6 +176,78 @@
             "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/diffbindfr/astex_diverse/repeat_0",
             "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/diffbindfr/astex_diverse/repeat_1",
             "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/diffbindfr/astex_diverse/repeat_2"
+          ]
+        },
+        {
+          "method": "SurfDock, no force optimization",
+          "family": "dl",
+          "source_type": "our_run",
+          "repeat_count": 3,
+          "top1_rmsd_lt2": {
+            "values": [
+              87.05882352941177,
+              94.11764705882354,
+              89.41176470588235
+            ],
+            "mean": 90.19607843137256,
+            "std": 3.594177015651642,
+            "std_definition": "sample standard deviation (ddof=1)"
+          },
+          "top1_joint_rmsd_lt2_pb_valid": {
+            "values": [
+              64.70588235294117,
+              67.05882352941177,
+              61.1764705882353
+            ],
+            "mean": 64.31372549019608,
+            "std": 2.9607193863806858,
+            "std_definition": "sample standard deviation (ddof=1)"
+          },
+          "posebusters_error_count": [
+            0,
+            0,
+            0
+          ],
+          "source": [
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock/astex_diverse/repeat_0",
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock/astex_diverse/repeat_1",
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock/astex_diverse/repeat_2"
+          ]
+        },
+        {
+          "method": "SurfDock",
+          "family": "dl",
+          "source_type": "our_run",
+          "repeat_count": 3,
+          "top1_rmsd_lt2": {
+            "values": [
+              89.41176470588235,
+              92.94117647058823,
+              89.41176470588235
+            ],
+            "mean": 90.58823529411764,
+            "std": 2.037706832433974,
+            "std_definition": "sample standard deviation (ddof=1)"
+          },
+          "top1_joint_rmsd_lt2_pb_valid": {
+            "values": [
+              84.70588235294117,
+              89.41176470588235,
+              83.52941176470588
+            ],
+            "mean": 85.88235294117646,
+            "std": 3.1126486012524563,
+            "std_definition": "sample standard deviation (ddof=1)"
+          },
+          "posebusters_error_count": [
+            0,
+            0,
+            0
+          ],
+          "source": [
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock_force_opt/astex_diverse/repeat_0",
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock_force_opt/astex_diverse/repeat_1",
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock_force_opt/astex_diverse/repeat_2"
           ]
         },
         {
@@ -217,25 +302,38 @@
       "methods": [
         {
           "method": "EFF-Dock",
-          "family": "ours",
+          "family": "dl",
           "source_type": "our_run",
-          "repeat_count": 1,
+          "repeat_count": 3,
           "top1_rmsd_lt2": {
-            "mean": 84.0909090909091,
-            "std": 0.0
+            "values": [
+              80.84415584415585,
+              81.81818181818181,
+              81.81818181818181
+            ],
+            "mean": 81.49350649350649,
+            "std": 0.5623541583015772,
+            "std_definition": "sample standard deviation (ddof=1)"
           },
           "top1_joint_rmsd_lt2_pb_valid": {
-            "mean": 81.16883116883118,
-            "std": 0.0
+            "values": [
+              78.8961038961039,
+              79.22077922077922,
+              79.22077922077922
+            ],
+            "mean": 79.11255411255411,
+            "std": 0.18745138610052847,
+            "std_definition": "sample standard deviation (ddof=1)"
           },
           "source": {
-            "path": "outputs/benchmarks/s50_raw_refined_confidence_external_runs/4184b0087a19d1138d578b123fb11ba4658fa149bf2d8087f8dd96c4beb4d4dc/report.json",
-            "sha256": "ed65159344ad1c320bc8b81c01e809880a3e0a54120914bc35682f7ec9591946"
+            "path": "papers/data/source_data.json",
+            "pointer": "/values/figure_data/comparison",
+            "condition": "100 poses, 10 steps, refinement, chirality-filtered confidence selection"
           }
         },
         {
           "method": "SigmaDock",
-          "family": "hybrid",
+          "family": "dl",
           "source_type": "our_run",
           "repeat_count": 3,
           "top1_rmsd_lt2": {
@@ -259,14 +357,14 @@
             "std_definition": "sample standard deviation (ddof=1)"
           },
           "source": [
-            "outputs/external_models/evaluation/sigmadock_official_r6_20260831/posebusters_benchmark/repeat_0/summary.json",
-            "outputs/external_models/evaluation/sigmadock_official_r6_20260831/posebusters_benchmark/repeat_1/summary.json",
-            "outputs/external_models/evaluation/sigmadock_official_r6_20260831/posebusters_benchmark/repeat_2/summary.json"
+            "outputs/benchmarks/external_models/evaluation/sigmadock_official_r6_20260831/posebusters_benchmark/repeat_0/summary.json",
+            "outputs/benchmarks/external_models/evaluation/sigmadock_official_r6_20260831/posebusters_benchmark/repeat_1/summary.json",
+            "outputs/benchmarks/external_models/evaluation/sigmadock_official_r6_20260831/posebusters_benchmark/repeat_2/summary.json"
           ]
         },
         {
           "method": "DiffDock-Pocket",
-          "family": "learning",
+          "family": "dl",
           "source_type": "our_run",
           "repeat_count": 3,
           "top1_rmsd_lt2": {
@@ -302,7 +400,7 @@
         },
         {
           "method": "RLDiff RL++",
-          "family": "hybrid",
+          "family": "dl",
           "source_type": "our_run",
           "repeat_count": 3,
           "top1_rmsd_lt2": {
@@ -338,7 +436,7 @@
         },
         {
           "method": "DiffBindFR + MDN/EC",
-          "family": "hybrid",
+          "family": "dl",
           "source_type": "our_run",
           "repeat_count": 3,
           "top1_rmsd_lt2": {
@@ -370,6 +468,78 @@
             "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/diffbindfr/posebusters_benchmark/repeat_0",
             "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/diffbindfr/posebusters_benchmark/repeat_1",
             "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/diffbindfr/posebusters_benchmark/repeat_2"
+          ]
+        },
+        {
+          "method": "SurfDock, no force optimization",
+          "family": "dl",
+          "source_type": "our_run",
+          "repeat_count": 3,
+          "top1_rmsd_lt2": {
+            "values": [
+              80.84415584415585,
+              82.14285714285714,
+              81.49350649350649
+            ],
+            "mean": 81.49350649350649,
+            "std": 0.6493506493506445,
+            "std_definition": "sample standard deviation (ddof=1)"
+          },
+          "top1_joint_rmsd_lt2_pb_valid": {
+            "values": [
+              43.18181818181818,
+              44.48051948051948,
+              43.506493506493506
+            ],
+            "mean": 43.722943722943725,
+            "std": 0.6758655842422532,
+            "std_definition": "sample standard deviation (ddof=1)"
+          },
+          "posebusters_error_count": [
+            0,
+            0,
+            0
+          ],
+          "source": [
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock/posebusters_benchmark/repeat_0",
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock/posebusters_benchmark/repeat_1",
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock/posebusters_benchmark/repeat_2"
+          ]
+        },
+        {
+          "method": "SurfDock",
+          "family": "dl",
+          "source_type": "our_run",
+          "repeat_count": 3,
+          "top1_rmsd_lt2": {
+            "values": [
+              85.06493506493507,
+              84.41558441558442,
+              83.44155844155844
+            ],
+            "mean": 84.3073593073593,
+            "std": 0.8170816488388285,
+            "std_definition": "sample standard deviation (ddof=1)"
+          },
+          "top1_joint_rmsd_lt2_pb_valid": {
+            "values": [
+              78.8961038961039,
+              77.59740259740259,
+              76.94805194805195
+            ],
+            "mean": 77.81385281385282,
+            "std": 0.9918995010726899,
+            "std_definition": "sample standard deviation (ddof=1)"
+          },
+          "posebusters_error_count": [
+            0,
+            0,
+            0
+          ],
+          "source": [
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock_force_opt/posebusters_benchmark/repeat_0",
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock_force_opt/posebusters_benchmark/repeat_1",
+            "outputs/benchmarks/external_models/evaluation/official_selected_posebusters_20260901/surfdock_force_opt/posebusters_benchmark/repeat_2"
           ]
         },
         {

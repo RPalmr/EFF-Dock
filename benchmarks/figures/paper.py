@@ -148,9 +148,48 @@ def curve_panel(ax, row, specs, *, show_markers=True):
     ax.set_xticks([1, 20, 40, 60, 80, 100])
 
 
-def comparison(data, out):
+PARTITION = dict(
+    success=("Success", "#9AC9B4"),
+    selection=("Valid near-native pose not selected", "#E8B395"),
+    no_valid_near=("Near-native poses all PB-invalid", "#B8A6CE"),
+    no_near_native=("No near-native pose", "#B9C3CE"),
+)
+
+
+def partition_panel(ax, block, title, invert=True):
+    names = list(block["methods"])
+    y = np.arange(len(names), dtype=float)
+    # The no-optimization SurfDock control sits below the protocol rows, as in panels A and B.
+    control = np.array(["no force opt" in n for n in names])
+    y[control] += 0.65
+    left = np.zeros(len(names))
+    for state, (label, color) in PARTITION.items():
+        values = np.array([block["methods"][n][state]["mean"] for n in names])
+        ax.barh(y, values, left=left, color=color, height=0.62, label=label, linewidth=0)
+        for position, start, value in zip(y, left, values, strict=True):
+            if value >= 4.5:
+                ax.text(start + value / 2, position, f"{value:.1f}", ha="center", va="center",
+                        fontsize=8.5, color="#333840")
+        left += values
+    if control.any():
+        ax.axhline(y[control].min() - 0.825, color="#B9C3CE", linewidth=0.7, linestyle="--")
+    ax.set_yticks(y, names)
+    if invert:
+        ax.invert_yaxis()
+    ax.set_xlim(0, 100)
+    ax.set_xticks([0, 25, 50, 75, 100])
+    ax.set_xlabel("Complexes (%)")
+    ax.set_title(title, loc="left", fontweight="bold")
+
+
+def comparison(data, out, partition=None):
     rows = data["rows"]
-    fig, axes = plt.subplots(1, 2, figsize=(9.2, 5.4), sharex=True, layout="constrained")
+    if partition is None:
+        fig, axes = plt.subplots(1, 2, figsize=(9.2, 5.4), sharex=True, layout="constrained")
+    else:
+        fig = plt.figure(figsize=(10.4, 10.4), layout="constrained")
+        top, bottom = fig.subfigures(2, 1, height_ratios=[1.0, 0.95])
+        axes = top.subplots(1, 2, sharex=True)
     for i, (ax, dataset, name) in enumerate(
         zip(axes, ("astex", "posebusters"), ("Astex Diverse Set", "PoseBusters v2"), strict=True)
     ):
@@ -213,7 +252,7 @@ def comparison(data, out):
         ax.set_title(f"{chr(65 + i)}  {name}", loc="left", fontweight="bold")
         ax.grid(axis="x", color="#E1E5EA", lw=0.6)
         ax.set_axisbelow(True)
-    fig.legend(
+    (fig if partition is None else top).legend(
         handles=[
             Patch(facecolor="#B9C3CE", label="RMSD < 2 Å & PB-valid"),
             Patch(
@@ -229,6 +268,15 @@ def comparison(data, out):
         loc="outside lower center",
         frameon=False,
     )
+    if partition is not None:
+        lower = bottom.subplots(1, 2, sharex=True, sharey=True)
+        for i, (ax, dataset, name) in enumerate(
+            zip(lower, ("astex", "posebusters"), ("Astex Diverse Set", "PoseBusters v2"), strict=True)
+        ):
+            # The shared y axis is inverted once, by the first panel.
+            partition_panel(ax, partition["cohorts"][dataset], f"{chr(67 + i)}  {name}", invert=i == 0)
+        handles, labels = lower[0].get_legend_handles_labels()
+        bottom.legend(handles, labels, ncol=4, loc="outside lower center", frameon=False)
     save(fig, out, "01_model_comparison")
 
 
@@ -1165,8 +1213,10 @@ def main():
         )
         return
     args.output.mkdir(parents=True, exist_ok=True)
+    partition_path = ROOT / "papers/data/stage_partition.json"
+    partition = json.loads(partition_path.read_text()) if partition_path.is_file() else None
     tasks = [
-        (comparison, (data["comparison"],), 10),
+        (comparison, (data["comparison"], partition), 10),
         (postprocessing, (bundle["benchmark_results"],), 10),
         (complexity, (data["complexity_budget"],), 10),
         (cumulative, (data["complexity_budget"],), 10),
