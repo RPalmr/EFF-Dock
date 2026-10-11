@@ -10,15 +10,15 @@ of frozen networks, rather than three independently trained models.
 |---|---|
 | [source_data.json](source_data.json) | Nine numerical bundles covering primary performance, candidate and ranking diagnostics, training-set relatedness, paired uncertainty, generation-input sensitivity and the historical acquisition runtime measurements. |
 | [source_data.csv](source_data.csv) | The same numerical content as JSON-pointer/value rows. Each pointer identifies a scalar or empty container in the JSON; this is distinct from the complex-level endpoint CSV below. |
-| [published_endpoints.json](published_endpoints.json) | Benchmark-specific aggregate endpoints, repeat counts, evaluator versions, score availability and denominator definitions for Supplementary Table S15 and Figure S20. |
+| [published_endpoints.json](published_endpoints.json) | Benchmark-specific aggregate endpoints, repeat counts, evaluator versions, score availability and denominator definitions for Supplementary Table S16, the EFF-Dock rows of Table S15 and Figure S20. |
 | [published_endpoints.csv](published_endpoints.csv) | Complex-level endpoint outcomes used to calculate those aggregates. Each row identifies a complex, repeat, candidate-bank stage, saved prefix and Top-k selection. |
-| [foldbench_strata.json](foldbench_strata.json) | Fixed docking-training accession and release-date strata for Supplementary Table S16, including membership IDs and aggregate outcomes. |
+| [foldbench_strata.json](foldbench_strata.json) | Fixed docking-training accession and release-date strata for Supplementary Table S17, including membership IDs and aggregate outcomes. |
 | [confidence_only_overlap.json](confidence_only_overlap.json) | Additional training-set overlap checks for the 25 confidence-training samples absent from the docking-training inventory. |
 | [all_candidate_pb.json](all_candidate_pb.json) | Official PoseBusters 0.6.5 results for every raw and refined candidate of the primary Astex and PoseBusters v2 banks, summarized as candidate validity, RMSD and joint oracles, the joint outcome partition, same-candidate raw-to-refined transitions and complex-level bootstrap intervals (main Fig. 5D; Supplementary Tables S20 and S21). |
 | [readout_ablation.json](readout_ablation.json) | Matched readout-ablation learning curves, terminal internal-validation rollout success and unrefined Astex/PoseBusters v2 bank coverage for the Newton--Euler and direct fragment readouts, with paired complex-level bootstrap intervals (Supplementary Fig. S21). |
 | [stage_costs.json](stage_costs.json) | Single-device (RTX PRO 6000) per-complex wall times for generation, refinement and confidence scoring of the primary protocol on Astex repeat 0. |
 | [figure1.json](figure1.json) | Candidate ranks, predicted and retrospective RMSD, input provenance and the scope of the separate illustrative trajectory in Figure 1. |
-| [literature_context.json](literature_context.json) | Published comparator counts, source versions, method-specific denominators and linked EFF-Dock saved-pose results for Supplementary Table S14; these are descriptive comparisons with explicit task and protocol differences. |
+| [literature_context.json](literature_context.json) | Published comparator counts, source versions, method-specific denominators and linked EFF-Dock saved-pose results for Supplementary Table S15; these are descriptive comparisons with explicit task and protocol differences. |
 
 The primary OpenBind cohort contains 925 complexes; the benchmark-specific
 follow-on analysis uses the official 802-case annotation subset. FoldBench uses
