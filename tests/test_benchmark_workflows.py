@@ -93,6 +93,31 @@ def test_pose_rmsd_reports_mapped_index_fallback() -> None:
     assert method == "mapped_index_fallback"
 
 
+def test_pose_rmsd_resolves_symmetry_across_tautomers() -> None:
+    # Hydroxypyridine input versus pyridone reference: bond orders differ, so the
+    # strict match fails and symmetry is resolved on the heavy-atom graph.
+    coordinates = [
+        (2.4, 0.0, 0.0), (1.2, 0.0, 0.0), (0.5, 1.2, 0.0), (-0.9, 1.2, 0.0),
+        (-1.6, 0.0, 0.0), (-0.9, -1.2, 0.0), (0.5, -1.2, 0.0),
+    ]
+    mol_dock = _molecule_with_conformer("Oc1ccccn1", coordinates)
+    mol_ref = _molecule_with_conformer("O=c1cccc[nH]1", coordinates)
+    pose = torch.tensor(coordinates, dtype=torch.float32)
+    shifted = pose + torch.tensor([0.0, 0.0, 1.0])
+
+    value, method = compute_pose_rmsd_with_method(
+        shifted,
+        pose,
+        torch.zeros(3),
+        list(range(7)),
+        mol_dock,
+        mol_ref,
+    )
+
+    assert value == pytest.approx(1.0, abs=1e-5)
+    assert method == "rdkit_calc_rms_graph_symmetry_no_align"
+
+
 def test_strip_reference_ligand_handles_atom_encoded_peptide() -> None:
     ligand = np.asarray([[0.0, 0.0, 0.0], [1.0, 0.0, 0.0], [2.0, 0.0, 0.0]])
     pdb = "".join(

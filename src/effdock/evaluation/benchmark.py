@@ -217,19 +217,28 @@ def compute_pose_rmsd_with_method(
 ) -> tuple[float, str]:
     """Return pose RMSD and the exact symmetry/fallback calculation path.
 
-    Uses RDKit ``rdMolAlign.CalcRMS`` when topology matches; otherwise falls
-    back to index-based RMSD on the matched atom subset.
+    Uses RDKit ``rdMolAlign.CalcRMS`` when topology matches. When the input and
+    reference differ only in bond orders, charges or tautomer, symmetry is
+    resolved on the heavy-atom graph alone; otherwise falls back to index-based
+    RMSD on the matched atom subset.
     """
     if len(dock_idx) == mol_dock.GetNumAtoms() == mol_ref.GetNumAtoms():
+        mol_pose = Chem.RWMol(mol_dock)
+        conf = mol_pose.GetConformer()
+        pose_abs = pose + pocket_center
+        for i in range(mol_dock.GetNumAtoms()):
+            conf.SetAtomPosition(i, pose_abs[i].tolist())
         try:
-            mol_pose = Chem.RWMol(mol_dock)
-            conf = mol_pose.GetConformer()
-            pose_abs = pose + pocket_center
-            for i in range(mol_dock.GetNumAtoms()):
-                conf.SetAtomPosition(i, pose_abs[i].tolist())
             return (
                 float(rdMolAlign.CalcRMS(mol_pose, mol_ref)),
                 "rdkit_calc_rms_symmetry_no_align",
+            )
+        except Exception:
+            pass
+        try:
+            return (
+                float(rdMolAlign.CalcRMS(_heavy_atom_graph(mol_pose), _heavy_atom_graph(mol_ref))),
+                "rdkit_calc_rms_graph_symmetry_no_align",
             )
         except Exception:
             pass
@@ -258,6 +267,23 @@ def compute_pose_rmsd(
         mol_ref,
     )
     return value
+
+
+def _heavy_atom_graph(mol: Chem.Mol) -> Chem.Mol:
+    """Elements and connectivity only: single bonds, no charges, aromaticity or stereo."""
+    m = Chem.RWMol(Chem.RemoveHs(mol, sanitize=False))
+    for atom in m.GetAtoms():
+        atom.SetFormalCharge(0)
+        atom.SetNoImplicit(True)
+        atom.SetNumExplicitHs(0)
+        atom.SetIsAromatic(False)
+        atom.SetChiralTag(Chem.ChiralType.CHI_UNSPECIFIED)
+    for bond in m.GetBonds():
+        bond.SetBondType(Chem.BondType.SINGLE)
+        bond.SetIsAromatic(False)
+        bond.SetStereo(Chem.BondStereo.STEREONONE)
+    m.UpdatePropertyCache(strict=False)
+    return m.GetMol()
 
 
 def _strip_charges(mol: Chem.Mol) -> Chem.Mol:
