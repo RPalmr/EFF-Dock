@@ -25,7 +25,7 @@ evaluator-error targets remain failures. Values match the manuscript source data
 
 | Method | Repeats | RMSD (%) | Joint (%) |
 |---|---:|---:|---:|
-| EFF-Dock | 3 | 81.49 ± 0.56 | 79.11 ± 0.19 |
+| EFF-Dock | 3 | 82.14 ± 0.56 | 79.76 ± 0.19 |
 | SigmaDock | 3 | 78.90 ± 0.32 | 76.41 ± 0.19 |
 | DiffDock-Pocket | 3 | 31.82 ± 0.65 | 14.83 ± 0.68 |
 | RLDiff RL++ | 3 | 74.46 ± 1.35 | 72.94 ± 0.68 |
@@ -60,8 +60,8 @@ Percentages of the full cohort, three-repeat means. Source:
 
 | Method | No near-native | No valid near-native | Not selected | Success |
 |---|---:|---:|---:|---:|
-| EFF-Dock (40 poses) | 6.9 | 1.8 | 14.5 | 76.7 |
-| EFF-Dock (100 poses) | 5.7 | 1.2 | 14.0 | 79.1 |
+| EFF-Dock (40 poses) | 6.3 | 1.8 | 14.5 | 77.4 |
+| EFF-Dock (100 poses) | 5.1 | 1.2 | 14.0 | 79.8 |
 | SigmaDock | 7.5 | 5.8 | 10.3 | 76.4 |
 | DiffDock-Pocket | 47.8 | 22.3 | 15.0 | 14.8 |
 | RLDiff RL++ | 16.6 | 1.5 | 9.0 | 72.9 |

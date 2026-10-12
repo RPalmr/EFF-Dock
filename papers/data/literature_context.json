@@ -1377,39 +1377,39 @@
         "top_k": 5,
         "endpoint": "rmsd_success",
         "complexes_per_repeat": 206,
-        "mean_percent": 72.49190938511327,
-        "sd_percent": 4.982137319851341,
+        "mean_percent": 73.13915857605178,
+        "sd_percent": 4.714822745738982,
         "repeats": [
           {
             "repeat": 0,
-            "successes": 152,
+            "successes": 153,
             "all_cases": 206,
             "determinate_cases": 206,
             "unresolved_cases": 0,
-            "rate_percent": 73.7864077669903,
-            "defined_case_rate_percent": 73.7864077669903,
+            "rate_percent": 74.27184466019418,
+            "defined_case_rate_percent": 74.27184466019418,
             "undefined_pose_count": 0,
             "partial_coverage_pose_count": 0
           },
           {
             "repeat": 1,
-            "successes": 138,
+            "successes": 140,
             "all_cases": 206,
             "determinate_cases": 206,
             "unresolved_cases": 0,
-            "rate_percent": 66.99029126213593,
-            "defined_case_rate_percent": 66.99029126213593,
+            "rate_percent": 67.96116504854369,
+            "defined_case_rate_percent": 67.96116504854369,
             "undefined_pose_count": 0,
             "partial_coverage_pose_count": 0
           },
           {
             "repeat": 2,
-            "successes": 158,
+            "successes": 159,
             "all_cases": 206,
             "determinate_cases": 206,
             "unresolved_cases": 0,
-            "rate_percent": 76.69902912621359,
-            "defined_case_rate_percent": 76.69902912621359,
+            "rate_percent": 77.18446601941747,
+            "defined_case_rate_percent": 77.18446601941747,
             "undefined_pose_count": 0,
             "partial_coverage_pose_count": 0
           }
@@ -1461,7 +1461,7 @@
         ]
       },
       "source": "published_endpoints.json",
-      "source_sha256": "c2ea5ddaf73016391c35e49d3f159f5d233673235bd50951603b77d74800d08b"
+      "source_sha256": "5bd47af8cadb470dd8dada79315bae3c69af3ed4bfed4c82c20702d7a2ba7d0f"
     },
     {
       "dataset": "PhiBench-derived",
@@ -1477,39 +1477,39 @@
         "top_k": 5,
         "endpoint": "rmsd_success",
         "complexes_per_repeat": 206,
-        "mean_percent": 78.15533980582525,
-        "sd_percent": 0.4854368932038895,
+        "mean_percent": 79.12621359223301,
+        "sd_percent": 0.4854368932038824,
         "repeats": [
           {
             "repeat": 0,
-            "successes": 161,
+            "successes": 163,
             "all_cases": 206,
             "determinate_cases": 206,
             "unresolved_cases": 0,
-            "rate_percent": 78.15533980582525,
-            "defined_case_rate_percent": 78.15533980582525,
+            "rate_percent": 79.12621359223301,
+            "defined_case_rate_percent": 79.12621359223301,
             "undefined_pose_count": 0,
             "partial_coverage_pose_count": 0
           },
           {
             "repeat": 1,
-            "successes": 160,
-            "all_cases": 206,
-            "determinate_cases": 206,
-            "unresolved_cases": 0,
-            "rate_percent": 77.66990291262135,
-            "defined_case_rate_percent": 77.66990291262135,
-            "undefined_pose_count": 0,
-            "partial_coverage_pose_count": 0
-          },
-          {
-            "repeat": 2,
             "successes": 162,
             "all_cases": 206,
             "determinate_cases": 206,
             "unresolved_cases": 0,
             "rate_percent": 78.64077669902913,
             "defined_case_rate_percent": 78.64077669902913,
+            "undefined_pose_count": 0,
+            "partial_coverage_pose_count": 0
+          },
+          {
+            "repeat": 2,
+            "successes": 164,
+            "all_cases": 206,
+            "determinate_cases": 206,
+            "unresolved_cases": 0,
+            "rate_percent": 79.6116504854369,
+            "defined_case_rate_percent": 79.6116504854369,
             "undefined_pose_count": 0,
             "partial_coverage_pose_count": 0
           }
@@ -1561,7 +1561,7 @@
         ]
       },
       "source": "published_endpoints.json",
-      "source_sha256": "c2ea5ddaf73016391c35e49d3f159f5d233673235bd50951603b77d74800d08b"
+      "source_sha256": "5bd47af8cadb470dd8dada79315bae3c69af3ed4bfed4c82c20702d7a2ba7d0f"
     },
     {
       "dataset": "FoldBench",
@@ -1737,7 +1737,7 @@
         ]
       },
       "source": "published_endpoints.json",
-      "source_sha256": "c2ea5ddaf73016391c35e49d3f159f5d233673235bd50951603b77d74800d08b"
+      "source_sha256": "5bd47af8cadb470dd8dada79315bae3c69af3ed4bfed4c82c20702d7a2ba7d0f"
     },
     {
       "dataset": "OpenBind",
@@ -1835,7 +1835,7 @@
         ]
       },
       "source": "published_endpoints.json",
-      "source_sha256": "c2ea5ddaf73016391c35e49d3f159f5d233673235bd50951603b77d74800d08b"
+      "source_sha256": "5bd47af8cadb470dd8dada79315bae3c69af3ed4bfed4c82c20702d7a2ba7d0f"
     },
     {
       "dataset": "OpenBind",
