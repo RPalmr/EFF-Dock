@@ -7,7 +7,7 @@ The environment is locked by `pyproject.toml` and `uv.lock`, including PyTorch
 
 ```bash
 git lfs install
-uv sync --frozen --group dev
+uv sync --frozen --python 3.12 --group dev
 uv run python scripts/verify_release.py
 uv run pytest -q
 uv run ruff check src tests scripts benchmarks
@@ -60,37 +60,9 @@ publishes original sample IDs, separate docking/confidence eligibility and
 hashes. It preserves the released split; the newer strict split builder is not
 a reproduction of those checkpoint inventories.
 
-The current article, Supplementary Information, figure PDFs and numerical
-Source Data are kept together in [`papers/`](../papers). Use the
-canonical captions for figure numbering and
-endpoint definitions. The [saved-endpoint verifier](../benchmarks/analysis/published_endpoints.py)
-recomputes the released benchmark-specific aggregate rates and sample SD without
-structures or weights:
-
-```bash
-uv run python -m benchmarks.analysis.published_endpoints
-```
-
-This checks aggregation of the saved case outcomes for Supplementary Table S15
-and Figure S20. It does not rerun molecular scoring or candidate selection.
-
-The earlier [figure inputs](../benchmarks/results/paper/README.md) and renderer
-remain available for reproducing the earlier figure package:
-
-```bash
-uv run python -m benchmarks.figures.paper --check
-uv run python -m benchmarks.figures.paper --output outputs/paper_figures
-```
-
-This produces individual PDFs/PNGs and `source_data.csv` from those earlier
-inputs; it does not reproduce the current corrected manuscript measurements or
-rerun scientific evaluations. Use the canonical manuscript files and
-the manuscript bundle for paper writing; the superseded drafting bundle has been
-removed.
-
 GPU work runs through the project Slurm scripts. `confidence_prepare.sbatch`
 generates immutable-by-default labeled pose shards and
 `confidence_train.sbatch` consumes them. The Slurm files record the original
 paper workflow but contain site-specific resource defaults. Benchmark job IDs,
 hashes, logs, and the complete machine ledger remain under ignored local
-storage; public result documents retain the claim-bearing counts and hashes.
+storage; manuscript materials and saved result tables remain local.

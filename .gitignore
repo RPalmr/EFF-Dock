@@ -625,3 +625,13 @@ runs/
 /docs/paper/prism/verification.json
 !/docs/paper/paper_figures.pdf
 !/docs/paper/figures/*.pdf
+
+# Manuscript material and saved study results are local-only.
+/papers/
+/docs/paper/
+/benchmarks/analysis/
+/benchmarks/figures/
+/benchmarks/results/
+/benchmarks/reference/
+/scripts/paper_*.py
+/scripts/collect_paper_*.py

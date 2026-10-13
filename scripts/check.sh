@@ -3,8 +3,6 @@
 #   fast      CPU-only, under 60 seconds, safe to run anytime.
 #   ml-smoke  ML interface smoke: import/config/data/model/loss one-batch checks.
 #   gpu       Short GPU smoke; wrapped in a transient srun on Slurm machines.
-# Fill the TODO blocks as the project takes shape. An empty contract fails
-# loudly on purpose -- never let "no checks" look like a pass.
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 

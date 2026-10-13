@@ -1,26 +1,15 @@
 # EFF-Dock documentation
 
-## Manuscript drafting materials
+Start with the [installation and inference example](../README.md).
 
-- [Numerical Source Data](../papers/data)
-
-The accompanying manuscript is under review and is not distributed in this
-repository; its numerical Source Data are released in `papers/data`.
-
-## Model and evaluation
-
-- [Model](MODEL.md)
-- [Rw correction, discussion and checkpoint compatibility](ORIENTATION_INJECTION.md)
+- [Model and deployment contract](MODEL.md)
+- [Coordinate conventions and checkpoint compatibility](ORIENTATION_INJECTION.md)
 - [Data preparation and splits](DATA.md)
-- [Evaluation](EVALUATION.md)
-- [Reproducibility and checkpoints](REPRODUCIBILITY.md)
-- [Benchmark report](BENCHMARK_RESULTS.md)
-- [Detailed methods](methods/README.md)
-- [Released training IDs and eligibility](../benchmarks/inputs/training_membership/README.md)
-- [Figure numerical data and captions](../papers/data)
+- [Evaluation and optional scoring](EVALUATION.md)
+- [Environment, training and checkpoint reproducibility](REPRODUCIBILITY.md)
+- [Architecture and implementation details](methods/README.md)
+- [Training membership and eligibility](../benchmarks/inputs/training_membership/README.md)
 - [Repository structure](STRUCTURE.md)
 
-Required benchmark inputs, training membership and literature reference tables
-are under `benchmarks/inputs` and `benchmarks/reference`. Test-only data are
-under `tests/fixtures`. The manuscript package contains the selected figure
-PDFs and their numerical source data.
+Raw datasets, generated poses, manuscript files and saved study results are
+supplied or retained separately; they are not needed for pretrained inference.

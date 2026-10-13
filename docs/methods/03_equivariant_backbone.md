@@ -97,7 +97,7 @@ while fragment orientations are proper rotations in SO(3). The intended SE(3)
 action jointly rotates/translates ligand, receptor,
 fragment frames and pocket centre. The building-block rotation tests do not
 certify exact equivariance of the full released model. A checkpoint-specific
-[audit](../paper/ARCHITECTURE_FIGURE.md#released-checkpoint-and-saved-trajectory-recheck)
+[audit](../ORIENTATION_INJECTION.md)
 found a small nonzero velocity deviation in one saved trajectory, isolated to
 the fragment-orientation initialization. This diagnostic does not measure
 benchmark-wide accuracy or confidence invariance. Do not infer complete reflection

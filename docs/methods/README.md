@@ -1,7 +1,7 @@
 # EFF-Dock method specification
 
-This directory is the equation- and dimension-level companion to
-[`../PAPER_METHODS_CURRENT.md`](../PAPER_METHODS_CURRENT.md). Every document
+This directory documents the equations and tensor dimensions of the
+[model implementation](../MODEL.md). Every document
 names the implementation source and the production configuration from which its
 values are taken. Dimensions below describe the released U70k production stack,
 not a claim that every historical checkpoint has the same schema.
@@ -16,11 +16,8 @@ not a claim that every historical checkpoint has the same schema.
 | [`06_training_and_checkpoint_selection.md`](06_training_and_checkpoint_selection.md) | Which data, optimization, and internal selection rules produced the released pair? |
 | [`07_inference_and_evaluation.md`](07_inference_and_evaluation.md) | What exact inference contract and endpoints define paper results? |
 
-The canonical article Methods and
-Supplementary Information provide the manuscript LaTeX.
 [Training membership](../../benchmarks/inputs/training_membership/README.md)
-and [manuscript source data](../../papers/data) provide the sample inventories
-and numerical evidence. The inference document includes
+provides the released sample inventories. The inference document includes
 energy equations, the executed refinement stopping rules, and chirality fallback.
 
 Notation: `N` is total nodes in a batched graph, `E` edges, `A` ligand atoms,

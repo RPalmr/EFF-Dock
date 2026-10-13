@@ -1,33 +1,19 @@
-# Benchmarks
+# Optional benchmark tooling
 
-The public benchmark code contains model adapters, runners, evaluators and
-compact result artifacts. Reusable metrics and EFF-Dock workflows live in
-`src/effdock/evaluation` and `src/effdock/workflows`.
+EFF-Dock evaluation and aggregation are available through:
 
-- EFF-Dock evaluation: `uv run eff-dock evaluate --help`
-- EFF-Dock aggregation: `uv run eff-dock benchmark --help`
-- [External model setup and execution](external_models/README.md)
-- [Comparison plotting](figures/README.md)
-- [Result artifacts](results/README.md)
-- [Manuscript figures and captions](../docs/paper/README.md)
+```bash
+uv run eff-dock evaluate --help
+uv run eff-dock benchmark --help
+```
 
-External model manifests, environment locks and runtime wrappers are retained.
-Upstream repositories, weights, installed environments, pose ensembles and raw
-logs are generated or supplied separately and are not distributed here.
+[External-model adapters](external_models/README.md) include separately pinned
+third-party environments, input preparation, runners and evaluators. They are
+not needed to run the released EFF-Dock model. Their upstream code, weights and
+datasets must be obtained separately under the relevant licenses.
 
-Superseded EFF-Dock sweep campaigns, one-off recovery launchers and intermediate
-plotting scripts are retained locally. The public checkout is not a complete
-archive of every experiment performed during development. Retained historical
-analysis helpers provide context and regression coverage, not production defaults.
-
-Use `benchmarks/external_models` and `benchmarks/figures` directly. External
-Slurm launchers are under `benchmarks/external_models/slurm`; duplicate aliases
-under `scripts/` are no longer published. Resource defaults remain site-specific.
-
-## Inputs and reference data
-
-`inputs/` contains frozen cohort, eligibility and complex-input manifests used
-by retained benchmark workflows. `reference/` contains literature comparison
-values used by the plotting tools. These files are inputs, not current results.
-Their bytes and checksums are unchanged by the directory reorganization;
-historical provenance strings inside the JSON may retain their original paths.
+`inputs/` retains metadata used by the supported workflows, including the
+[released training memberships](inputs/training_membership/README.md).
+Manuscript figures and saved benchmark result tables are not distributed here.
+Cluster wrappers have site-specific defaults that must be adapted to the
+execution environment.

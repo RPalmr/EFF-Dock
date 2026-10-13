@@ -275,7 +275,7 @@ resamples, either individual complexes or complete exact-PDB groups; the latter
 uses the complex-weighted mean. Report percentile 95% CIs in percentage points,
 without implying protein-family clustering or multiple-comparison adjustment.
 Sequence relatedness and same-training-sample ligand–sequence intersection
-are defined in [RELATEDNESS.md](../paper/RELATEDNESS.md); they are not certified
+are defined in [RELATEDNESS.md](../DATA.md); they are not certified
 pocket identity or a validated binary leakage definition.
 
 Opened external cohorts are descriptive. U70k was selected on the fixed
