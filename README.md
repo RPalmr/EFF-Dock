@@ -1,10 +1,23 @@
 # EFF-Dock
 
+**Fragment-based docking in a supplied protein pocket.**
+
 EFF-Dock predicts protein–ligand poses in a supplied binding pocket with a
 fragment-based SE(3) flow model and a paired pose-confidence model. This
-repository provides the code, two pretrained checkpoints and instructions to
-run them. Manuscripts, figure bundles, saved study results and local run logs
-are not distributed here.
+repository provides runnable code, two pretrained checkpoints and method
+illustrations.
+
+[Install](#install) · [Dock a ligand](#dock-a-ligand) ·
+[Python API](#python-api) · [Architecture](#architecture) ·
+[Documentation](#code-and-model-documentation)
+
+[![EFF-Dock workflow: prepare a supplied pocket and ligand fragments, generate poses, refine them, rank candidates by predicted RMSD and select a pose.](docs/assets/workflow.png)](docs/assets/workflow.png)
+
+The study workflow combines fragment pose generation, energy-based
+post-refinement and confidence ranking. The quick-start command below
+generates and ranks poses; post-refinement and chirality-aware reselection
+are separate workflows. Crystal RMSDs shown in the example are retrospective
+annotations, not ranking inputs. Click either figure for the full-size image.
 
 ## Install
 
@@ -92,6 +105,28 @@ dock(DockingOptions(
 ))
 ```
 
+## Architecture
+
+[![EFF-Dock architecture: docking and confidence networks, an interaction layer with residual connections, equivariant convolution, and normalization and activation.](docs/assets/architecture.png)](docs/assets/architecture.png)
+
+The docking network predicts fragment translation and rotation through a
+Newton–Euler readout. The confidence network combines atom and protein–ligand
+contact features to predict pose RMSD for ranking. The figure expands the
+shared interaction layers, equivariant convolution, normalization and activation.
+See the [model contract](docs/MODEL.md) and
+[implementation details](docs/methods/README.md) for the released checkpoints
+and coordinate conventions.
+
+## Evaluation scope
+
+EFF-Dock performs supplied-pocket docking. The released checkpoints use a
+historical training split; its overlap exclusions do not establish complete
+ligand-and-pocket disjointness from every external benchmark. See
+[data preparation](docs/DATA.md),
+[training membership and overlap definitions](benchmarks/inputs/training_membership/README.md)
+and the [evaluation protocol](docs/EVALUATION.md) when interpreting or
+reproducing benchmark results.
+
 ## Code and model documentation
 
 - [`weights/MANIFEST.md`](weights/MANIFEST.md): checkpoints, hashes and model cards.
@@ -99,6 +134,10 @@ dock(DockingOptions(
 - [`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md): environment and checkpoint contracts.
 - [`scripts/README.md`](scripts/README.md): retained workflow and verification helpers.
 - [`benchmarks/README.md`](benchmarks/README.md): optional external-model adapters.
+- [`docs/assets/README.md`](docs/assets/README.md): illustration sources and scope.
+
+Manuscripts, full figure bundles, saved study results and local run logs are
+kept separately from this code release.
 
 Training and evaluation require separately prepared data. They are exposed
 through `eff-dock data`, `eff-dock train`, `eff-dock confidence` and
