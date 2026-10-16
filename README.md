@@ -1,23 +1,44 @@
 # EFF-Dock
 
-**Fragment-based docking in a supplied protein pocket.**
+**Fragment-based protein–ligand docking with SE(3) flow matching.**
 
-EFF-Dock predicts protein–ligand poses in a supplied binding pocket with a
-fragment-based SE(3) flow model and a paired pose-confidence model. This
-repository provides runnable code, two pretrained checkpoints and method
-illustrations.
+Generate poses in a supplied protein pocket and rank them with a paired
+confidence model. Includes runnable code and two pretrained checkpoints.
 
-[Install](#install) · [Dock a ligand](#dock-a-ligand) ·
-[Python API](#python-api) · [Architecture](#architecture) ·
-[Documentation](#code-and-model-documentation)
+[Results](#benchmark-results) · [Install](#install) · [Usage](#dock-a-ligand) · [Architecture](#architecture) · [Documentation](#documentation)
 
 [![EFF-Dock workflow: prepare a supplied pocket and ligand fragments, generate poses, refine them, rank candidates by predicted RMSD and select a pose.](docs/assets/workflow.png)](docs/assets/workflow.png)
 
-The study workflow combines fragment pose generation, energy-based
-post-refinement and confidence ranking. The quick-start command below
-generates and ranks poses; post-refinement and chirality-aware reselection
-are separate workflows. Crystal RMSDs shown in the example are retrospective
-annotations, not ranking inputs. Click either figure for the full-size image.
+From ligand fragments and a supplied pocket to pose generation, energy-based
+refinement and confidence selection. Crystal overlays and RMSDs are
+retrospective annotations, not ranking inputs.
+
+## Benchmark results
+
+Reference-pocket redocking with 100 poses, 10 unguided sampling steps,
+energy refinement and chirality-filtered confidence selection. Values are
+percent mean ± sample SD over three inference repeats of the released weights.
+
+<!-- benchmark-summary:start -->
+
+| Benchmark (n) | Top-1 RMSD | Top-1 RMSD + PB | Oracle@100 |
+| :--- | ---: | ---: | ---: |
+| Astex Diverse Set (85) | 83.1 ± 0.7 | 80.0 ± 0.0 | 96.5 ± 1.2 |
+| PoseBusters v2 (308) | 82.1 ± 0.6 | 79.8 ± 0.2 | 94.9 ± 0.5 |
+| PhiBench-derived (206) | 63.8 ± 3.1 | 60.5 ± 3.2 | 89.5 ± 0.7 |
+| FoldBench-Pocket (558) | 75.3 ± 0.5 | 73.8 ± 0.6 | 91.6 ± 0.3 |
+| OpenBind (925) | 53.2 ± 0.6 | 53.2 ± 0.6 | 87.9 ± 0.6 |
+
+<!-- benchmark-summary:end -->
+
+**Top-1 RMSD:** selected-pose symmetry-aware heavy-atom RMSD <2 Å.
+**Top-1 RMSD + PB:** the same pose also passes all 27 non-RMSD PoseBusters checks.
+**Oracle@100:** any of the 100 refined poses has RMSD <2 Å, irrespective of validity.
+
+These are descriptive results under a supplied-holo protocol. Astex and
+PoseBusters were used during development; the historical training exclusions
+do not establish complete benchmark disjointness.
+[Protocol, cohort definitions and source values](docs/EVALUATION.md#reported-benchmark-results).
 
 ## Install
 
@@ -84,7 +105,8 @@ This check requires an available CUDA GPU and exercises preparation, sampling,
 confidence scoring and SDF export with the released checkpoints. It is not an
 accuracy benchmark; the command without `--smoke` only loads the models on CPU.
 
-## Python API
+<details>
+<summary>Python API</summary>
 
 ```python
 from pathlib import Path
@@ -105,6 +127,8 @@ dock(DockingOptions(
 ))
 ```
 
+</details>
+
 ## Architecture
 
 [![EFF-Dock architecture: docking and confidence networks, an interaction layer with residual connections, equivariant convolution, and normalization and activation.](docs/assets/architecture.png)](docs/assets/architecture.png)
@@ -117,39 +141,31 @@ See the [model contract](docs/MODEL.md) and
 [implementation details](docs/methods/README.md) for the released checkpoints
 and coordinate conventions.
 
-## Evaluation scope
+## Documentation
 
-EFF-Dock performs supplied-pocket docking. The released checkpoints use a
-historical training split; its overlap exclusions do not establish complete
-ligand-and-pocket disjointness from every external benchmark. See
-[data preparation](docs/DATA.md),
-[training membership and overlap definitions](benchmarks/inputs/training_membership/README.md)
-and the [evaluation protocol](docs/EVALUATION.md) when interpreting or
-reproducing benchmark results.
+- [Checkpoints and model cards](weights/MANIFEST.md)
+- [Data, architecture and training](docs/README.md)
+- [Evaluation protocol and benchmark source values](docs/EVALUATION.md)
+- [Reproducibility](docs/REPRODUCIBILITY.md)
+- [Workflow helpers](scripts/README.md) and [external-model adapters](benchmarks/README.md)
 
-## Code and model documentation
-
-- [`weights/MANIFEST.md`](weights/MANIFEST.md): checkpoints, hashes and model cards.
-- [`docs/README.md`](docs/README.md): data preparation, architecture, training and evaluation.
-- [`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md): environment and checkpoint contracts.
-- [`scripts/README.md`](scripts/README.md): retained workflow and verification helpers.
-- [`benchmarks/README.md`](benchmarks/README.md): optional external-model adapters.
-- [`docs/assets/README.md`](docs/assets/README.md): illustration sources and scope.
-
-Manuscripts, full figure bundles, saved study results and local run logs are
-kept separately from this code release.
+Figure provenance is recorded [here](docs/assets/README.md). Manuscripts,
+full figure bundles and local study outputs are kept separately.
 
 Training and evaluation require separately prepared data. They are exposed
 through `eff-dock data`, `eff-dock train`, `eff-dock confidence` and
 `eff-dock evaluate`; run each command with `--help` for its options.
 
-For development checks:
+<details>
+<summary>Development checks</summary>
 
 ```bash
 uv sync --frozen --python 3.12 --group dev
 uv run pytest -q -m 'not gpu'
 bash scripts/check.sh fast
 ```
+
+</details>
 
 ## License
 

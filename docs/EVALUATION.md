@@ -1,11 +1,12 @@
 # Evaluation contract
 
-The active external suite is PoseBusters v2, Astex Diverse, PhiBench,
-FoldBench, and the auxiliary OpenBind cohort. Raw structures stay ignored
+The active external suite is PoseBusters v2, the Astex Diverse Set, a locally
+selected PhiBench-derived cohort, FoldBench-Pocket, and the auxiliary OpenBind
+cohort. Raw structures stay ignored
 locally, while snapshot identity, molecule mappings, and explicit pocket
-definitions are frozen in manifests. PhiBench and FoldBench are the core
-temporal checks; OpenBind is reported separately because it is a dense
-single-protease cohort.
+definitions are frozen in manifests. PhiBench-derived and FoldBench-Pocket
+adapt their source tasks to supplied-pocket redocking; OpenBind is a dense
+single-protease-family cohort.
 
 The primary metric is selected top-1 symmetry-aware ligand RMSD success at
 `<2A`. Secondary reporting includes oracle success, official PoseBusters
@@ -56,8 +57,68 @@ The public sampler writes raw poses. The benchmark's `Refined` columns use a
 separate deterministic physical-refinement pass and must not be interpreted as
 an implicit `eff-dock dock` step. Equations, numerical settings and the
 chirality-selector fallback are specified in
-[the inference methods](methods/07_inference_and_evaluation.md). Exact U70k counts, the U50k/U100k comparisons,
-and the repeated-use evaluation boundary are in `BENCHMARK_RESULTS.md`.
+[the inference methods](methods/07_inference_and_evaluation.md). Internal
+checkpoint selection is documented in the
+[confidence model card](../weights/CONFIDENCE_MODEL_CARD.md).
+
+## Reported benchmark results
+
+The [README table](../README.md#benchmark-results) summarizes the refined,
+chirality-filtered primary condition for five fixed cohorts. Its full-precision
+means and sample SDs are in [benchmark_summary.csv](benchmark_summary.csv).
+Values are percentages and use all complexes in each cohort as the denominator.
+
+- **Top-1 RMSD:** the selected pose has symmetry-aware, no-alignment heavy-atom
+  RMSD strictly below 2 Å in the fixed receptor frame.
+- **Top-1 RMSD + PB:** that same pose also passes all 27 non-RMSD checks in
+  PoseBusters 0.6.5, `redock` mode. The PhiBench-derived, FoldBench and OpenBind
+  evaluations normalize the internal-energy reference molecule through a
+  mapped SMILES round trip, preserving atom identities, connectivity,
+  canonical isomeric SMILES and InChI. Pose coordinates, thresholds and the
+  27 check definitions are unchanged.
+- **Oracle@100:** at least one refined candidate has RMSD below 2 Å. This
+  retrospective endpoint does not require PoseBusters validity and is not
+  selected-pose performance.
+
+All rows use the frozen released docking/confidence pair, explicit `rw`
+orientation injection and `contextual_v1` frames, 100 candidates, 10 late-power-3
+steps, translation-prior sigma 2 Å, a 10 Å generation crop, no center jitter
+and no in-ODE guidance. Each candidate is refined for at most 100 iterations.
+Selection takes the lowest predicted RMSD among input-chirality-compatible
+candidates, falling back to the unfiltered top-ranked pose when none qualifies.
+This is a separate post-generation workflow, not the raw-pose quick-start command.
+
+The three repeats use inference seeds 42, 100042 and 200042 with the same
+trained weights. Astex and PoseBusters fix the starting conformer; the remaining
+cohorts also vary its generation seed. SD measures inference variability,
+not independent training runs or confidence intervals.
+
+Cohorts are Astex Diverse Set (85 complexes), PoseBusters v2 (308), the locally
+selected PhiBench-derived cohort (206), FoldBench-Pocket (558 interfaces), and
+the primary OpenBind cohort (925 complexes). The PhiBench-derived cohort is
+not established to be identical to the published 206-case set. FoldBench
+results here use fixed-receptor RMSD, not its native cofolding endpoint;
+OpenBind uses the full primary cohort, not the official 802-case follow-on
+subset. The latter is a single-protease-family auxiliary evaluation.
+
+Astex and PoseBusters were repeatedly inspected during development. The
+historical ligand-and-pocket exclusions do not establish complete independence
+from every benchmark; see the
+[training-membership audit](../benchmarks/inputs/training_membership/README.md).
+These protocol-specific rates are not a matched-compute cross-model comparison
+or evidence of performance on wholly unrelated targets.
+
+### Numerical provenance
+
+The table is an extract of the manuscript's `data/source_data.json`, schema
+`effdock.ncs_source_data.v1`. Selected-pose values come from
+`values.benchmark_results.rows` with `stage=refined` and `policy=filtered`;
+oracle values come from `values.candidate_metrics.rows` with `stage=refined`.
+Rows are joined by dataset and checked for matching cohort size and candidate
+budget. The CSV retains unrounded means and sample SDs; the README rounds
+each to one decimal place.
+
+Source SHA-256: `4b41dc2d5cbb1f8430bfd0c45ed6f497cbcf383142894cc9ad495936423fb7cf`.
 
 ## Candidate SDF outputs
 
