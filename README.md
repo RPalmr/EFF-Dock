@@ -5,7 +5,7 @@
 Generate poses in a supplied protein pocket and rank them with a paired
 confidence model. Includes runnable code and two pretrained checkpoints.
 
-[Results](#benchmark-results) · [Install](#install) · [Usage](#dock-a-ligand) · [Architecture](#architecture) · [Documentation](#documentation)
+[Results](#benchmark-results) · [Animations](#docking-in-motion) · [Install](#install) · [Usage](#dock-a-ligand) · [Architecture](#architecture) · [Documentation](#documentation)
 
 [![EFF-Dock workflow: prepare a supplied pocket and ligand fragments, generate poses, refine them, rank candidates by predicted RMSD and select a pose.](docs/assets/workflow.png)](docs/assets/workflow.png)
 
@@ -39,6 +39,19 @@ These are descriptive results under a supplied-holo protocol. Astex and
 PoseBusters were used during development; the historical training exclusions
 do not establish complete benchmark disjointness.
 [Protocol, cohort definitions and source values](docs/EVALUATION.md#reported-benchmark-results).
+
+## Docking in motion
+
+<p align="center">
+  <a href="docs/assets/pocket-context.gif"><img src="docs/assets/pocket-context.gif" width="32%" alt="Astex 1T46 receptor: camera zoom from the full protein into the supplied pocket."></a>
+  <a href="docs/assets/fragment-flow.gif"><img src="docs/assets/fragment-flow.gif" width="32%" alt="Eleven actual saved ODE states of six rigid ligand fragments in the fixed 1T46 pocket."></a>
+  <a href="docs/assets/confidence-ranking.gif"><img src="docs/assets/confidence-ranking.gif" width="32%" alt="Four refined 1T46 candidates with predicted RMSD ranks and retrospective crystal overlays; rank1 is selected."></a>
+</p>
+
+3Dmol.js views of **Astex 1T46**. The fragment flow is one saved illustrative
+trajectory; confidence ranking shows four poses from a **separate 100-pose
+refined bank**. Amber denotes the crystal reference, used only for retrospective
+RMSD. Click a view to enlarge it. [Animation details and provenance](docs/assets/README.md#animations).
 
 ## Install
 

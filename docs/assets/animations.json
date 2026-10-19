@@ -1,0 +1,156 @@
+{
+  "schema": "effdock.readme_animations.v1",
+  "purpose": "Illustrations, not additional benchmark results",
+  "case": "Astex Diverse Set 1T46-STI",
+  "renderer": "3Dmol.js 2.5.5 in Chromium software WebGL",
+  "javascript_URL": "https://cdn.jsdelivr.net/npm/3dmol@2.5.5/build/3Dmol-min.js",
+  "javascript_sha256": "f7cc78921ae72e7623e89cdd111434f58c2efddd2ffda1cd212644b406fb8016",
+  "input_source_sha256": {
+    "trace.json": "f4bcb0a5e83d4ea76176558d9d84f3c060d947e0917c4f3024db190b350fc71b",
+    "input_pocket.json": "8da62e0c6f3433d9d24a91b0ad8925543ce855f5d8f12f72a79800489d1bab6f",
+    "selection_example.json": "94ead49ea563a7618f0de293482436c9867a8cf44bfcb99e4188c28ed44a1027",
+    "candidate_annotations.json": "98eaf71d511dd4ceb3db4426f96b245368f0d3de012956dc6d5cd15b9db36b71",
+    "selected_reference.json": "d0b301df7254436e97654e8a1d59952eb7ef02c0897bb72eb95986d9439a21c5",
+    "figure1.json": "26261eaa02ffad0d29ef604eda21f33568a72c49acea3d5bbf302632f09ad396"
+  },
+  "animations": [
+    {
+      "file": "pocket-context.gif",
+      "sha256": "2129146162b84fc3e6f15bf67961d6950bd35dc326cf84afbce91c9f7a7e7fcc",
+      "bytes": 814039,
+      "canvas_pixels": [
+        640,
+        560
+      ],
+      "source_captures": 24,
+      "encoded_GIF_frames": 24,
+      "loop": "infinite",
+      "duration_ms": 4210,
+      "renderer_sha256": "3feca8479bc9d818451c306a4bbf8a8ee79ecb87c8eedb5a12167fd5a0e5e89f",
+      "coordinate_roundtrip_verified": true
+    },
+    {
+      "file": "fragment-flow.gif",
+      "sha256": "f3380de485262cbf3662c6f7a5db2efc0c456992131f06ffe881d84e64122954",
+      "bytes": 122905,
+      "canvas_pixels": [
+        640,
+        560
+      ],
+      "source_captures": 11,
+      "encoded_GIF_frames": 11,
+      "loop": "infinite",
+      "duration_ms": 4430,
+      "renderer_sha256": "8217b155160fb5b66c225e21df0d324aaa2241158b42bc42184097a7e993cbb8",
+      "coordinate_roundtrip_verified": true
+    },
+    {
+      "file": "confidence-ranking.gif",
+      "sha256": "361b4af32f4a5e1c65011ddc3141bbb7a00628321f3062bea6cfa39ecc284606",
+      "bytes": 1006278,
+      "canvas_pixels": [
+        640,
+        560
+      ],
+      "source_captures": 32,
+      "encoded_GIF_frames": 28,
+      "loop": "infinite",
+      "duration_ms": 7040,
+      "renderer_sha256": "8217b155160fb5b66c225e21df0d324aaa2241158b42bc42184097a7e993cbb8",
+      "coordinate_roundtrip_verified": true
+    }
+  ],
+  "pocket": {
+    "cutoff_angstrom": 10.0,
+    "motion": "Camera zoom and display-only fade of full receptor; all molecular coordinates fixed",
+    "fixed_coordinate_audit": [
+      {
+        "phase": 0,
+        "pocket_atoms": 295,
+        "full_atoms": 2369,
+        "exact_PDB_coordinates": true
+      },
+      {
+        "phase": 1,
+        "pocket_atoms": 295,
+        "full_atoms": 2369,
+        "exact_PDB_coordinates": true
+      }
+    ]
+  },
+  "flow": {
+    "protocol": {
+      "seed": 42,
+      "num_samples": 1,
+      "num_steps": 10,
+      "time_schedule": "late",
+      "schedule_power": 3.0,
+      "sigma": 2.0,
+      "pocket_cutoff": 10.0,
+      "vina_guidance_scale": 0.0,
+      "rank_by": "sample",
+      "orientation_injection": "rw",
+      "checkpoint_orientation_injection": "legacy_rt_w"
+    },
+    "saved_flow_times": [
+      0.0,
+      0.27100008726119995,
+      0.48799997568130493,
+      0.6570000052452087,
+      0.7839999794960022,
+      0.875,
+      0.9359999895095825,
+      0.9729999899864197,
+      0.9919999837875366,
+      0.9990000128746033,
+      1.0
+    ],
+    "ligand_heavy_atoms": 37,
+    "rigid_fragments": 6,
+    "motion": "All11 actual saved ODE frames; fixed camera, no coordinate interpolation; flow time is dimensionless",
+    "connectivity": "Cut interfragment bonds are omitted for clarity; no chemical bond formation is simulated"
+  },
+  "confidence": {
+    "bank_size": 100,
+    "stage": "refined",
+    "repeat": 0,
+    "frame_policy": "contextual_v1",
+    "orientation_injection": "rw",
+    "candidate_annotations": [
+      {
+        "index": 68,
+        "rank": 1,
+        "predicted_rmsd": 1.5513402223587036,
+        "symmetry_rmsd": 1.362280844541048,
+        "verified_rmsd": 1.36228083193366
+      },
+      {
+        "index": 35,
+        "rank": 25,
+        "predicted_rmsd": 2.337100028991699,
+        "symmetry_rmsd": 1.7735310225663026,
+        "verified_rmsd": 1.7735310141477727
+      },
+      {
+        "index": 4,
+        "rank": 50,
+        "predicted_rmsd": 2.7432024478912354,
+        "symmetry_rmsd": 2.419151679801573,
+        "verified_rmsd": 2.41915169316358
+      },
+      {
+        "index": 84,
+        "rank": 100,
+        "predicted_rmsd": 4.4362640380859375,
+        "symmetry_rmsd": 4.308885241743502,
+        "verified_rmsd": 4.308885348706181
+      }
+    ],
+    "selected_index": 68,
+    "motion": "Display carousel of ranks100,50,25,1 with small camera-only turns; this is not a sequential ranking algorithm",
+    "selection": "Minimum predicted RMSD among input-stereochemistry-eligible candidates",
+    "crystal_overlay": "Amber reference and symmetry-aware RMSD are retrospective, never used for selection"
+  },
+  "scope": "N1 supplied-conformer trajectory and N100 SMILES-prepared candidate bank are separate frozen runs of the same complex; frames do not depict binding kinetics.",
+  "execution": "Rendering saved coordinates only; no model inference, refinement, retraining or new benchmark evaluation"
+}
