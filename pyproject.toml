@@ -34,6 +34,7 @@ dependencies = [
     "numpy==2.4.2",
     "openmm==8.5.1",
     "pandas==3.0.2",
+    "pillow>=13.0.0",
     "plinder==0.2.26",
     "posebusters==0.6.5",
     "pyarrow==24.0.0",

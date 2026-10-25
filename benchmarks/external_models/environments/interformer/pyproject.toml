@@ -14,6 +14,7 @@ dependencies = [
   "oddt==0.7",
   "openbabel-wheel>=3.1.1,<4",
   "pandas==2.2.2",
+  "pillow>=13.0.0",
   "plip==3.0.1",
   "posebusters==0.2.16",
   "pytorch-lightning==2.2.4",
